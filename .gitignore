@@ -1,0 +1,4 @@
+BUILDING_API/
+__pycache__/
+.env
+/home/wesley/Projects/FASTapi/app/.env

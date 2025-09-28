@@ -1,0 +1,35 @@
+Generic single-database configuration.
+
+Alembic env.py Changes Documentation
+
+This document explains, with code and step-by-step detail, the key changes made to env.py for Alembic migrations:
+
+1. **Importing Project Settings and Models**
+
+- Importing Base from app.db_models:
+  Base is the SQLAlchemy declarative base where all your models (tables) are defined. By importing Base, Alembic can access the metadata of all tables and models, which is essential for autogenerating migration scripts. This integration ensures that any structural changes (new tables, columns, relationships, etc.) made in your models are automatically recognized during migration generation, keeping your database schema in sync with your code.
+
+  ```python
+  Python code:
+  ╔════════════════════════════════════════════╗
+  ║ from app.db_models import Base            ║
+  ║ target_metadata = Base.metadata           ║
+  ╚════════════════════════════════════════════╝
+  ```
+
+- **Importing settings from app.config:**
+  The settings object contains configuration values for your project, including the database connection URL. By importing settings, you can override the default sqlalchemy.url specified in alembic.ini with the value provided in your config file (settings.sqlalchemy_database_url). This approach makes your migration process environment-aware and flexible, allowing you to manage database URLs for development, testing, and production without manually editing the Alembic configuration file.
+
+  ```python
+  Python code:
+  ╔════════════════════════════════════════════════════════════════════════════╗
+  ║ from app.config import settings                                           ║
+  ║ config.set_main_option('sqlalchemy.url', settings.sqlalchemy_database_url)║
+  ╚════════════════════════════════════════════════════════════════════════════╝
+  ```
+
+  ON your vertual environment Terminal:~$ **alembic revision --autogenerate**
+e.g (BUILDING_API) YOU@debian:~/my_projects/FASTapi$ alembic revision --autogenerate
+
+
+
