@@ -1,16 +1,17 @@
 from pydantic import BaseModel, EmailStr, HttpUrl, Field
 from typing import Optional
-from datetime import datetime
 
 class UserCreate(BaseModel):
-    username: str = Field(..., min_length=3, max_length=50)
+    username :str
+    full_name: str
+    email: EmailStr
+    # the password is required and cant be omitted (...) min_length is 9 characters.
+    hashed_password: str = Field(..., min_length=9)
     
-
-# Response model for user creation
 class UserResponse(BaseModel):
-    id: int
     username: str
-   
+    full_name: str
+    email: EmailStr
 
     class Config:
         orm_mode = True

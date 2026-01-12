@@ -8,7 +8,7 @@ This guide explains how to connect FastAPI to a PostgreSQL database using SQLAlc
 
 ## 1. Create a .env File for Database URL
 Create a .env file in your project root to securely store your database connection URL. Example:
-N.B ((**IM USING POSTGREsql**))
+N.B ((**I'M USING POSTGREsql**))
 
 ```
 DATABASE_URL=database+ database_driver://username:password@localhost:5432/dbname
