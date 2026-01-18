@@ -4,10 +4,9 @@ from app.database import get_db
 
 from app.db_models import User
 from app import Pass_Hash_Algo ,token
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 
 router = APIRouter(
-    prefix="/login",
     tags=["Authentication"]
 )
 
@@ -22,7 +21,7 @@ router = APIRouter(
     -expire the token after a certain period for security
 '''
 
-@router.post("/")
+@router.post("/login")
 def login(credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     #verify user exists
     db_user = db.query(User).filter(User.email == credentials.username).first()
@@ -33,7 +32,7 @@ def login(credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect credentials")
     
     #create token
-    access_token = token.create_access_token(data={"sub": db_user.id})
+    # We turn the integer 98512 into the string "98512"
+    access_token = token.create_access_token(data={"sub": str(db_user.id)})
 
-    #
     return {"access_token": access_token, "token_type": "bearer"}

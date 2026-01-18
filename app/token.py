@@ -2,13 +2,12 @@ import jwt
 from jwt.exceptions import InvalidTokenError
 from datetime import datetime, timedelta, timezone
 from fastapi import HTTPException, status, Depends
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.db_models import User
 
-
-
-
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 #algorithm is like the type of pot we use to cook the token
 ALGORITHM = "HS256"
@@ -19,7 +18,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
     # signature = header + payload + secret_key using algorithm
     # token = header + payload + signature
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: timedelta | None = None)-> str:
     payload = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
@@ -31,7 +30,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return Token
 
 
-def verify_access_token(token: str , db: Session = Depends(get_db)) -> User:
+def verify_access_token(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> int:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -46,8 +45,8 @@ def verify_access_token(token: str , db: Session = Depends(get_db)) -> User:
     except InvalidTokenError:
         raise credentials_exception
     
-    UserId = db.query(User).filter(User.id == userid).first()
-    if UserId is None:
+    UserData= db.query(User).filter(User.id == userid).first()
+    if UserData is None:
         raise credentials_exception
     
-    return UserId
+    return UserData.id

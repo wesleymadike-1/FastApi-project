@@ -5,13 +5,15 @@ from app.schemas import UserCreate ,UserResponse
 from app.db_models import User
 from app import Pass_Hash_Algo
 
+from app.token import verify_access_token
+
 router = APIRouter(
     prefix="/users",
     tags=["Users"]
 )
 
 @router.post("/", status_code=status.HTTP_201_CREATED ,response_model=UserResponse)
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
+def create_user(user: UserCreate , db: Session = Depends(get_db)):
 
     db_user = db.query(User).filter((User.username == user.username) | (User.email == user.email)).first()
     if db_user:
@@ -27,20 +29,20 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/{user_id}", response_model=UserResponse)
-def read_user(user_id: int, db: Session = Depends(get_db)) -> UserResponse:
+def read_user(user_id: int, db: Session = Depends(get_db), GreenLight: User = Depends(verify_access_token)) -> UserResponse:
     db_user = db.query(User).filter(User.id == user_id).first()
     if not db_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return db_user
 
 @router.get("/")
-def read_users(db: Session = Depends(get_db)):
+def read_users(db: Session = Depends(get_db), GreenLight: User = Depends(verify_access_token)):
     users = db.query(User).all()
     return list(users)
 
 
 @router.put("/{user_id}", response_model=UserResponse)
-def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db)) -> UserResponse:
+def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db), GreenLight: User = Depends(verify_access_token)) -> UserResponse:
     db_user = db.query(User).filter(User.id == user_id).first()
     if not db_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
