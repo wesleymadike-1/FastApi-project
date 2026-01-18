@@ -16,6 +16,3 @@ class UserResponse(BaseModel):
     class Config:
         orm_mode = True
 
-class Login(BaseModel):
-    email: EmailStr
-    password: str = Field(..., min_length=9)
