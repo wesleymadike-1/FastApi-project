@@ -13,6 +13,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 #algorithm is like the type of pot we use to cook the token
 ALGORITHM = settings.ALGORITHM
 #this is your unique signature you use to sign documents, it should be kept secret!!!
+# use openssl rand -hex 32 or 64 to generate a strong secret key
 SECRET_KEY = settings.SECRET_KEY
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
     # the header and payload are base64 encoded (like being hashed) before the key is added
