@@ -6,14 +6,15 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.db_models import User
+from .config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 #algorithm is like the type of pot we use to cook the token
-ALGORITHM = "HS256"
+ALGORITHM = settings.ALGORITHM
 #this is your unique signature you use to sign documents, it should be kept secret!!!
-SECRET_KEY = "your_secret_key_here"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+SECRET_KEY = settings.SECRET_KEY
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
     # the header and payload are base64 encoded (like being hashed) before the key is added
     # signature = header + payload + secret_key using algorithm
     # token = header + payload + signature

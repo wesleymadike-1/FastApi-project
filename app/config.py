@@ -8,6 +8,10 @@ class Settings(BaseSettings):
     DB_NAME: str
     DB_DRIVER: str = "psycopg2"
 
+    ALGORITHM: str
+    SECRET_KEY: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+
     @property
     def sqlalchemy_database_url(self) -> str:
         return f"postgresql+{self.DB_DRIVER}://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"

@@ -94,3 +94,14 @@ By following these steps, you ensure a robust, maintainable, and secure integrat
 
 ================================================================================================================
 ================================================================================================================
+## 6. Using Environment Variables in Postman
+
+When testing your API with Postman, you can manage sensitive information securely and efficiently by using environment variables:
+
+- **Add the API URL as an Environment Variable in Postman:**  
+    Create a new environment in Postman and add a variable (e.g., `base_url`) with your API's URL as its value. Use `{{base_url}}` in your request URLs. This allows you to easily switch between different environments (development, staging, production) by changing the variable value instead of updating each request manually.
+
+- **Set the Token as a Variable in Postman:**  
+    Add another variable (e.g., `token`) to your Postman environment and store your authentication token there. Reference it in your request headers as `Bearer {{token}}`. This makes it easy to update the token when it changes and keeps your requests organized and secure.
+
+Using Postman environment variables for your API URL and token streamlines your workflow and helps protect sensitive data.
