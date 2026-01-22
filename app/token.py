@@ -51,4 +51,4 @@ def verify_access_token(token: str = Depends(oauth2_scheme), db: Session = Depen
     if UserData is None:
         raise credentials_exception
     
-    return UserData.id
+    return UserData

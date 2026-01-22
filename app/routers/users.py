@@ -28,9 +28,9 @@ def create_user(user: UserCreate , db: Session = Depends(get_db)):
 
 
 
-@router.get("/{user_id}", response_model=UserResponse)
-def read_user(user_id: int, db: Session = Depends(get_db), GreenLight: User = Depends(verify_access_token)) -> UserResponse:
-    db_user = db.query(User).filter(User.id == user_id).first()
+@router.get("/profile", response_model=UserResponse)
+def read_user(db: Session = Depends(get_db), GreenLight: User = Depends(verify_access_token)) -> UserResponse:
+    db_user = db.query(User).filter(User.id == GreenLight.id).first()
     if not db_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return db_user

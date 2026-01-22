@@ -14,5 +14,18 @@ class UserResponse(BaseModel):
     email: EmailStr
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
+class PostCreate(BaseModel):
+    title: str
+    content: str
+    
+class PostResponse(BaseModel):
+    id: int
+    owner_id: int
+    title: str
+    content: str
+    owner: UserResponse
+
+    class Config:
+        from_attributes = True
