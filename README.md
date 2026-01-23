@@ -208,3 +208,4 @@ Using Postman environment variables for your API URL and token streamlines your 
  1:many = one row in this table (user) have many rows in the other table(many posts in Post table}
  connect the tables with Foreign Key
  syn the connected table 
+many to many : is like connecting two table to be one-to-many and many-to-one on each other, we will need a third table to connet the , that table will be the middle man making them many to many

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import users, auth, post
+from app.routers import users, auth, post, like
 from fastapi.middleware.cors import CORSMiddleware
 
 description = """
@@ -34,3 +34,4 @@ app.add_middleware(
 app.include_router(users.router)
 app.include_router(auth.router)
 app.include_router(post.router)
+app.include_router(like.router)

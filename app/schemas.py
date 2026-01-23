@@ -1,5 +1,8 @@
 from pydantic import BaseModel, EmailStr, HttpUrl, Field
-from typing import Optional
+from typing import Annotated
+
+
+
 
 class UserCreate(BaseModel):
     username :str
@@ -29,3 +32,8 @@ class PostResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class Like(BaseModel):
+    post_id: int
+    # dir ensures the direction is either 0 or 1
+    dir: Annotated[int,Field(ge=0, le=1)]
