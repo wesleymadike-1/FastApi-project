@@ -203,7 +203,71 @@ When testing your API with Postman, you can manage sensitive information securel
 Using Postman environment variables for your API URL and token streamlines your workflow and helps protect sensitive data.
 
 
-## 7. DAtabase relationshp
+## 7. Database Relationship
+
+- **user.py**: Handles user registration, authentication, and user-related operations.
+- **post.py**: Manages creation, retrieval, updating, and deletion of posts by users.
+- **like.py**: Allows users to like posts, tracking which user liked which post.
+- **auth.py**: Manages authentication logic, including login and token generation.
+
+
+- **User** and **Post**: One-to-Many  
+    Each user can create multiple posts, but each post is authored by a single user.
+- **User** and **Like**: One-to-Many  
+    Each user can like multiple posts, but each like is associated with a single user.
+- **Post** and **Like**: One-to-Many  
+    Each post can be liked by multiple users, but each like is associated with a single post.
+- **Like** acts as a join table to implement a Many-to-Many relationship between **User** and **Post**.
+
+### Mermaid Entity Relationship Diagram
+
+```mermaid
+erDiagram
+        USER ||--o{ POST : "writes"
+        USER ||--o{ LIKE : "gives"
+        POST ||--o{ LIKE : "receives"
+```
+
+### Flow Diagrams
+
+#### User Registration and Post Creation
+
+```mermaid
+sequenceDiagram
+        participant User
+        participant FastAPI
+        participant Database
+
+        User->>FastAPI: Register (username, password)
+        FastAPI->>Database: Create User
+        Database-->>FastAPI: User created
+        FastAPI-->>User: Registration success
+
+        User->>FastAPI: Create Post (content)
+        FastAPI->>Database: Insert Post (user_id FK)
+        Database-->>FastAPI: Post created
+        FastAPI-->>User: Post creation success
+```
+
+#### Liking a Post
+
+```mermaid
+sequenceDiagram
+        participant User
+        participant FastAPI
+        participant Database
+
+        User->>FastAPI: Like Post (post_id)
+        FastAPI->>Database: Insert Like (user_id, post_id)
+        Database-->>FastAPI: Like recorded
+        FastAPI-->>User: Like success
+```
+
+---
+
+**Relationship Types:**
+
+Foreign keys are used to connect the tables and enforce referential integrity.
  1:1  = one row in this table (user) have one row in the other table(settings}
  1:many = one row in this table (user) have many rows in the other table(many posts in Post table}
  connect the tables with Foreign Key
