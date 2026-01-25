@@ -63,13 +63,21 @@ N.B (**I'M USING POSTGRESQL** 🐘)
 ```
 DATABASE_URL=database+database_driver://username:password@localhost:5432/dbname
 ```
--DB_DRIVER=psycopg2
--DB_USER=**********
--DB_PASSWORD=************
--DB_HOST=localhost or the IP address of your DB provider (e.g., Azure or AWS)
--DB_PORT=5432 or the one from your provider
--DB_NAME=*************
+- `DB_DRIVER=psycopg2`
+- `DB_USER=your_username`
+- `DB_PASSWORD=your_password`
+- `DB_HOST=localhost`  <!-- or the IP address of your DB provider (e.g., Azure or AWS) -->
+- `DB_PORT=5432`       <!-- or the one from your provider -->
+- `DB_NAME=your_dbname`
 
+- `ALGORITHM=<your_algorithm>`  
+    *(e.g., "HS256" — loaded as `ALGORITHM = settings.ALGORITHM`)*
+
+- `SECRET_KEY=<your_secret_key>`  
+    *This is your unique signature for signing tokens. It should be kept secret!  
+    Generate a strong key with: `openssl rand -hex 32` or `openssl rand -hex 64`.*
+- `ACCESS_TOKEN_EXPIRE_MINUTES=<minutes>`  
+    *(e.g., "30" — controls token expiration time)*
 This keeps sensitive credentials out of your codebase and allows easy environment switching.
 
 ## 2. ⚙️ Create a Config File Using Pydantic's BaseSettings
